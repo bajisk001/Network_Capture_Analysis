@@ -1,0 +1,136 @@
+# UDP Capture Analysis - ElevateLabs.org
+
+## 1. Overview of UDP
+- **UDP (User Datagram Protocol)** is a core protocol that provides **connectionless** communication between applications on hosts across an IP network.  
+- Unlike TCP, UDP does **not guarantee delivery, ordering, or error-checking**. It’s fast but unreliable — think of it like sending a letter without tracking.  
+
+**Common applications that use UDP:**  
+- DNS queries  
+- Streaming (audio/video)  
+- Online gaming  
+- SNMP and other lightweight protocols  
+
+### How UDP works (simplified)
+1. Your computer wants to send data to **elevatelabs.org** or any server.  
+2. UDP sends the data in **packets called datagrams** without establishing a connection.  
+3. Each datagram is independent — the server may receive some, all, or none.  
+4. If a reply is expected (e.g., DNS), the client waits for a response packet.  
+
+---
+
+## 🎯 Objective
+- Capture live **UDP network packets** and identify UDP behaviour and related traffic types.  
+
+- **Task:** Generate UDP traffic (e.g., ping, DNS queries, streaming test) and analyze it with Wireshark.  
+- **Focus:** Observe UDP datagram delivery, ports, and payload, and note the lack of handshake or retransmissions.  
+
+---
+
+## 🛠 Tools Used
+- **Wireshark** (free, GUI-based packet capture tool)  
+- **ping / dig / traceroute / browser** to generate UDP traffic  
+
+**Example commands to generate UDP traffic:**
+- ping -n 3 elevatelabs.org    # ICMP over IP (sometimes appears in UDP captures for related activity)
+
+## 📂 Deliverables
+
+- **Packet capture file (.pcap):** `udp_capture.pcap` — contains UDP traffic.  
+- **Short report:** Summarizes UDP behaviour, packet fields, and identified protocols.  
+
+---
+
+## 🧭 Steps to Capture Packets
+
+### 1. Traffic Generation
+1. Start Wireshark and begin capture on your active network interface.  
+2. Generate UDP traffic using a terminal or browser. Examples:  
+   - `dig elevatelabs.org`  
+   - Ping commands, traceroutes, or streaming tests  
+3. Let the capture run for ~30–60 seconds while performing actions, then stop capture.  
+
+---
+
+### 2. Packet Capture Details
+
+- **Tool used:** Wireshark  
+- **Capture filter (optional):** `udp`  
+- **Or specific port:** `udp port 53` (for DNS)  
+- **Display filter (for analysis):** `udp`  
+
+**Typical packets to look for:**  
+- **Client → Server:** UDP datagram sent  
+- **Server → Client:** UDP datagram reply (if applicable)  
+- Each datagram is **independent**; no handshake exists  
+
+---
+
+### 3. Important UDP Packet Fields (Explained Simply)
+
+| Field / Item        | What it Means in Layman Terms |
+|--------------------|-------------------------------|
+| **Source Port**     | The port on the client machine (ephemeral/random high port). |
+| **Destination Port**| The server’s service port (e.g., 53 for DNS). |
+| **Length**          | Size of the UDP datagram payload. |
+| **Checksum**        | Optional error-check to ensure packet integrity. |
+| **Payload / Data**  | The actual data sent in the datagram (e.g., DNS query, game data). |
+
+---
+
+### 4. Protocol Recognition in Wireshark
+
+- **Protocol column:** shows `UDP` or the application protocol (e.g., DNS, SNMP).  
+- **Info column:** contains a short human-friendly summary, e.g.:  
+  - `Standard query` (DNS request)  
+  - `Standard query response` (DNS reply)  
+- **Ports:** common UDP ports include 53 (DNS), 123 (NTP), 161 (SNMP)  
+
+**Useful display filters:**  
+- udp                    # show all UDP packets
+- udp.port == 53          # show DNS traffic specifically
+
+---
+
+## 5. Communication Flow (Step-by-Step)
+
+### UDP Communication
+1. Client sends a **datagram** to the server (e.g., DNS query to port 53).  
+2. Server responds with a **datagram reply** (e.g., resolved IP address).  
+3. There is **no handshake**; each datagram is independent.  
+4. If a packet is lost, UDP **does not retransmit**.  
+
+### Example DNS Flow
+- Client → Server: *What is the IP of elevatelabs.org?*  
+- Server → Client: *The IP is 34.207.192.240* (example)  
+- Both datagrams have **no sequence or acknowledgment numbers**.  
+
+---
+
+## 6. Observations / Notes (What to look for in capture)
+- **No handshake:** UDP is connectionless; no SYN/ACK like TCP.  
+- **Datagram size:** Check length for payload size.  
+- **Loss / retries:** UDP packets may be lost; Wireshark will not see automatic retransmissions.  
+- **DNS behaviour:** Each DNS query generates a small request and reply.  
+- **Multiple protocols:** In the same capture, you may also see DNS (UDP), ICMP (ping), HTTP (TCP) traffic.  
+
+---
+
+## ✅ Outcome
+- Learned how to capture UDP packets with Wireshark.  
+- Observed **connectionless communication** and datagram delivery.  
+- Identified UDP-specific fields (length, ports, payload).  
+- Recognized related protocols in a live capture (DNS, ICMP, TCP/HTTP).  
+
+---
+
+## 📎 File Included
+- `udp_capture.pcap` — contains UDP traffic generated by browsing or querying **elevatelabs.org**.  
+
+---
+
+## 💡 Quick Wireshark Tips (for beginners)
+- Start capture on the interface with your internet connection (Wi-Fi/Ethernet).  
+- Use **Display Filter** `udp` to focus on UDP packets.  
+- For DNS traffic specifically: `udp.port == 53`  
+- Right-click a packet → **Follow → UDP Stream** to view the full conversation.  
+- Check packet **Length** and **Checksum** to understand payload and integrity.
