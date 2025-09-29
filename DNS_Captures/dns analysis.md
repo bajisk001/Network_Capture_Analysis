@@ -100,5 +100,5 @@ DNS over UDP is **connectionless** (no handshake like TCP).
 ---
 
 ## 📎 File Included
-- `dns_capture.pcap` — contains DNS query/response packets.  
+- `dns.pcap` — contains DNS query/response packets.  
 
