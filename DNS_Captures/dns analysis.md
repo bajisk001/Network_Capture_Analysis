@@ -33,99 +33,72 @@
 ## 🧭 Steps to Capture Packets
 
 ### 1. Traffic Generation
-- Command used to generate DNS query Ex:ping picoctf.org
+- Command used to generate DNS query Ex:ping picoctf.org/kalilinux etc
 
 
 ### 2. Packet Capture Details
 
-Tool used: Wireshark.
+- Tool used: Wireshark.
 
-Capture filter (optional):
+- Display filter (for analysis): dns
+- Typical capture will show:
+- **DNS Query** (Client → Server)  
+- **DNS Response** (Server → Client)  
+- Usually, 2–4 packets are generated per query.  
 
-udp port 53
+---
 
+## 3. Wireshark Packet Fields (Explained Simply)
 
-Display filter (for analysis):
+| Field           | What it Means in Layman Terms |
+|-----------------|--------------------------------|
+| **Transaction ID** | A unique number linking query ↔ response (like a token number). |
+| **Flags**          | Indicates if it’s a query/response, recursion request, etc. |
+| **Questions**      | Number of questions asked (e.g., “What is the IP of picoctf.org?”). |
+| **Answer RRs**     | Number of answers (IP addresses in the reply). |
+| **Queries**        | Domain name requested. |
+| **Answers**        | IP addresses returned by the DNS server. |
 
-dns
+---
 
-
-Typical capture will show:
-
-DNS Query (Client → Server).
-
-DNS Response (Server → Client).
-
-Usually, 2–4 packets are generated per query.
-
-### 3. Wireshark Packet Fields (Explained Simply)
-Field	What it Means in Layman Terms
-Transaction ID	A unique number linking query ↔ response (like a token number).
-Flags	Indicates if it’s a query/response, recursion request, etc.
-Questions	Number of questions asked (e.g., “What is the IP of picoctf.org?”).
-Answer RRs	Number of answers (IP addresses in the reply).
-Queries	Domain name requested.
-Answers	IP addresses returned by the DNS server.
-
-### 4. Protocol Recognition
-
+## 4. Protocol Recognition
 In Wireshark, DNS packets are easy to identify:
+- **Protocol column:** shows `DNS`.  
+- **Info column:**  
+- `Standard query` → request.  
+- `Standard query response` → reply.  
+- **Port numbers:** UDP 53 (sometimes TCP 53 if data >512 bytes).  
 
-Protocol column: shows DNS.
+---
 
-Info column:
+## 5. Communication Flow
+DNS over UDP is **connectionless** (no handshake like TCP).  
 
-Standard query → request.
+**Flow:**  
+1. Client sends query: *“What is the IP of picoctf.org?”*  
+2. DNS server replies: *“The IP is 34.207.192.240”* (example).  
 
-Standard query response → reply.
+👉 Both packets share the same **Transaction ID**.  
 
-Port numbers: UDP 53 (sometimes TCP 53 if data >512 bytes).
+---
 
-### 5. Communication Flow
+## 6. Observations / Notes
+- DNS is fast: one query, one response.  
+- If DNS response >512 bytes, TCP (port 53) is used.  
+- Captured traffic helps identify:  
+- The domain queried.  
+- The resolved IP address.  
+- Whether resolution was successful.  
 
-DNS over UDP is connectionless (no handshake like TCP).
+---
 
-Flow:
+## ✅ Outcome
+- Learned how to capture packets with Wireshark.  
+- Understood the role of DNS in translating domain names to IPs.  
+- Identified multiple network protocols (DNS, HTTP/HTTPS, TCP/ICMP).  
 
-Client sends query: “What is the IP of picoctf.org?”
+---
 
-DNS server replies: “The IP is 34.207.192.240” (example).
+## 📎 File Included
+- `dns_capture.pcap` — contains DNS query/response packets for `picoctf.org`.  
 
-Both packets share the same Transaction ID.
-
-### 6. Observations / Notes
-
-DNS is fast: one query, one response.
-
-If DNS response >512 bytes, TCP (port 53) is used.
-
-Captured traffic helps identify:
-
-The domain queried.
-
-The resolved IP address.
-
-Whether resolution was successful.
-
-🌐 Extra Protocols to Capture
-
-Besides DNS, generate additional traffic (browse a website / ping a server).
-Filter in Wireshark and identify at least 3 different protocols, for example:
-
-DNS → Resolving domain names.
-
-HTTP/HTTPS → Website browsing.
-
-TCP/ICMP → Connection setup or ping traffic.
-
-✅ Outcome
-
-Learned how to capture packets with Wireshark.
-
-Understood the role of DNS in translating domain names to IPs.
-
-Identified multiple network protocols (DNS, HTTP/HTTPS, TCP/ICMP).
-
-📎 File included:
-
-dns_capture.pcap — contains DNS query/response packets
