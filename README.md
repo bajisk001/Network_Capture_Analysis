@@ -24,31 +24,28 @@ Each protocol has its dedicated folder containing:
 ---
 
 ## 📂 Folder Structure
-DNS_Captures
-├── DNS.pcapng
-└── dns analysis.md
-
-HTTP_Captures
-├── HTTP.pcapng
-└── http analysis.md
-
-ICMP_Captures
-├── ICMP.pcapng
-└── icmp analysis.md
-
-TCP_Captures
-├── TCP.pcapng
-└── tcp analysis.md
-
-TLS_Captures
-├── TLS.pcapng
-└── tls analysis.md
-
-UDP_Captures
-├── UDP.pcapng
-└── udp analysis.md
-Wireshark_QA.md
-README.md
+Network-Capture-Analysis/
+│
+├── DNS_Captures
+│ ├── DNS.pcapng
+│ └── dns_analysis.md
+├── HTTP_Captures
+│ ├── HTTP.pcapng
+│ └── http_analysis.md
+├── ICMP_Captures
+│ ├── ICMP.pcapng
+│ └── icmp_analysis.md
+├── TCP_Captures
+│ ├── TCP.pcapng
+│ └── tcp_analysis.md
+├── TLS_Captures
+│ ├── TLS.pcapng
+│ └── tls_analysis.md
+├── UDP_Captures
+│ ├── UDP.pcapng
+│ └── udp_analysis.md
+├── Wireshark_QA.md
+└── README.md
 
 
 ---
