@@ -7,7 +7,7 @@
 - Without DNS, we’d have to remember long numbers instead of website names.
 
 ## How DNS works (simplified):
-- You type a domain (tryhackme.com) into the browser.
+- You type a domain (ex: picoctf.org) into the browser.
 - Your computer sends a DNS query to a DNS server.
 - The server replies with the IP address of that domain.
 - Your browser then connects to the website using that IP.
@@ -76,7 +76,7 @@ DNS over UDP is **connectionless** (no handshake like TCP).
 
 **Flow:**  
 1. Client sends query: *“What is the IP of picoctf.org?”*  
-2. DNS server replies: *“The IP is 34.207.192.240”* (example).  
+2. DNS server replies: *“The IP is 127.0.0.1”* (example).  
 
 👉 Both packets share the same **Transaction ID**.  
 
@@ -100,5 +100,5 @@ DNS over UDP is **connectionless** (no handshake like TCP).
 ---
 
 ## 📎 File Included
-- `dns_capture.pcap` — contains DNS query/response packets for `picoctf.org`.  
+- `dns_capture.pcap` — contains DNS query/response packets.  
 
